@@ -10,3 +10,10 @@ const manager = new TradeOfferManager({
     community: community,
     language: 'en'
 });
+
+client.on('webSession', (sessionid, cookies) => {
+    manager.setCookies(cookies);
+
+    community.setCookies(cookies);
+    community.startConfirmationChecker(15000, ''); // identity secret goes here
+})
