@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+mongoose.connect('', {
+    useNewUrlParser: true,
+});
+
 app.engine('.hbs', handlebars({
   extname: '.hbs',
   defaultLayout: 'main'
@@ -16,5 +20,7 @@ app.get('/', (req, res) => {
     message: 'Example of Handlebars usage'
   });
 });
+
+app.use(require('./routes'));
 
 app.listen(3000);
