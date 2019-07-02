@@ -15,6 +15,15 @@ client.on('loggedOn', () => {
     console.log('Logged into Steam');
 });
 
+client.on('webSession', (sessionid, cookies) => {
+    sendRandomItem();
+
+    manager.setCookies(cookies);
+
+    community.setCookies(cookies);
+    community.startConfirmationChecker(15000, ''); // identity secret goes here
+});
+
 
 function sendRandomItem() {
     manager.loadInventory(440, 2, true, (err, inventory) => {
