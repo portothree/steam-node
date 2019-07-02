@@ -4,9 +4,12 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.connect('', {
-    useNewUrlParser: true,
-});
+mongoose.connect('', { useNewUrlParser: true });
+
+const Item = mongoose.model('Item', mongoose.Schema({
+  name: String,
+  price: Number
+}))
 
 app.engine('.hbs', handlebars({
   extname: '.hbs',
@@ -15,12 +18,13 @@ app.engine('.hbs', handlebars({
 app.set('view engine', '.hbs');
 
 app.get('/', (req, res) => {
-  res.render('home', {
-    title: 'Hey yo',
-    message: 'Example of Handlebars usage'
-  });
-});
+	Item.find({}, (err, items) => {
+		if (err) {
+			console.log(err);
+		}
 
-app.use(require('./routes'));
+		res.render('home', { items });
+	});
+});
 
 app.listen(3000);
