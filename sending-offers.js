@@ -34,22 +34,44 @@ client.on('webSession', (sessionid, cookies) => {
 
 
 function sendRandomItem() {
-    manager.loadInventory(440, 2, true, (err, inventory) => {
+    const partner = ''; // partner steam id goes here
+    const appid = 440;
+    const contextid = 2;
+
+    const offer = manager.createOffer(partner);
+
+    manager.loadInventory(appid, contextid, true, (err, myInv) => { // true here stands for only showing tradable items
         if (err) {
             console.log(err);
         } else {
-            const offer = manager.createOffer(''); // partner steam id goes here
-            const item = inventory[Math.floor(Math.random() * inventory.length - 1)];
+            const myItem = myInv[Math.floor(Math.random() * myInv.length - 1)];
+            offer.addMyItem(myItem);
 
-            offer.addMyItem(item);
-            offer.setMessage(`You get a ${item.name}`);
-            offer.send((err, status) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(`Sent offer, status: ${status}`);
+            manager.loadUserInventory(
+                partner,
+                appid,
+                contextid,
+                true,
+                (err, theirInv) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        const theirItem = theirInv[Math.floor(Math.random() * theirInv.length - 1)];
+                        offer.addTheirItem(theirItem)
+
+                        offer.setMessage(`You will trade my ${myItem.name} for your ${theirItem.name}`);
+
+                        offer.send((err, status) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(`Sent offer, status: ${status}`);
+                            }
+                        });
+                    }
                 }
-            });
+            );
         }
     });
+
 }
