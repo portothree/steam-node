@@ -1,7 +1,7 @@
 const SteamUser = require('steam-user');
 const SteamTotp = require('steam-totp');
-
-const client = new SteamUser();
+const SteamCommunity = require('steamcommunity');
+const TradeOfferManager = require('steam-tradeoffer-manager');
 
 const logOnOptions = {
     accountName: '',
@@ -9,11 +9,20 @@ const logOnOptions = {
     twoFactorCode: SteamTotp.generateAuthCode('') // steam shared secret
 };
 
+const client = new SteamUser();
+const community = new SteamCommunity();
+const manager = new TradeOfferManager({
+    steam: client,
+    community: community,
+    language: 'en'
+});
+
 client.logOn(logOnOptions);
 
 client.on('loggedOn', () => {
     console.log('Logged into Steam');
 });
+
 
 client.on('webSession', (sessionid, cookies) => {
     sendRandomItem();
