@@ -1,15 +1,12 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const mongoose = require('mongoose');
+const Item = require('./models/item');
 
 const app = express();
 
 mongoose.connect('', { useNewUrlParser: true });
 
-const Item = mongoose.model('Item', mongoose.Schema({
-  name: String,
-  price: Number
-}))
 
 app.engine('.hbs', handlebars({
   extname: '.hbs',
