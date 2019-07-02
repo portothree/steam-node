@@ -15,7 +15,7 @@ const logOnOptions = {
     accountName: '',
     password: '',
     twoFactorCode: SteamTotp.generateAuthCode('') // steam shared secret
-};
+  };
 
 client.logOn(logOnOptions);
 
@@ -35,6 +35,7 @@ client.on('webSession', (sessionid, cookies) => {
 
 function sendRandomItem() {
     const partner = ''; // partner steam id goes here
+    const token = '';
     const appid = 440;
     const contextid = 2;
 
@@ -60,6 +61,8 @@ function sendRandomItem() {
                         offer.addTheirItem(theirItem)
 
                         offer.setMessage(`You will trade my ${myItem.name} for your ${theirItem.name}`);
+
+                        offer.setToken(token)
 
                         offer.send((err, status) => {
                             if (err) {
