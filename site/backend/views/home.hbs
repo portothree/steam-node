@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{{title}}</title>
+		<title>Item List</title>
 	</head>
 	<body>
-		<h1>Page: {{title}}</h1>
-		Message: {{message}}
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Price</th>
+			</tr>
+			{{#each items}}
+			<tr>
+				<td>{{this.name}}</td>
+				<td>{{this.price}}</td>
+			</tr>
+			{{/each}}
+		</table>
 	</body>
 </html>
